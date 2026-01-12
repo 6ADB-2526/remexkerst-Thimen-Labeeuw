@@ -55,5 +55,9 @@ def getRes(request, spelerID, matchCode):
     return JsonResponse(f"resultaat {res[0]["punten"]}", safe=False)
 
 def getTotaal(resuest, spelerID):
-
-    return HttpResponse("speler totaal")
+    allRes = Match.objects.filter(SpelerID = spelerID).values("punten")
+    allRes = list(allRes)
+    totaal = 0
+    for i in allRes:
+        totaal += i["punten"]
+    return JsonResponse(totaal, safe=False)
